@@ -52,6 +52,7 @@ l_input <- list("Girth"=18.2, "Height"=72)
 prediction_fn(l_input)
 
 pref <- toJava(prediction_fn)
-J("org/kie/trustyai/r/ModelWrapper")$debug(pref)
+model <- Model(pref)
+
 
 result <- J("org/kie/trustyai/r/ModelWrapper")$invoke(pref)

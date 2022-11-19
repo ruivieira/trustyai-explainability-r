@@ -41,8 +41,7 @@ output <- prediction_fn(input)
 l_input <- list("Girth"=18.2, "Height"=72)
 result <- as.double(prediction_fn(l_input))
 
-pref <- toJava(prediction_fn)
-model <- Model(pref)
+model <- Model(prediction_fn)
 
 features <- c(
   feature(name="Girth", type="number", value=18.2),

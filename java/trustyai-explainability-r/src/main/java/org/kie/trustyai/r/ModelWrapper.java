@@ -35,9 +35,10 @@ public class ModelWrapper implements PredictionProvider {
 
     @Override
     public CompletableFuture<List<PredictionOutput>> predictAsync(List<PredictionInput> list) {
-        final REXP[] values = list.get(0).getFeatures()
-                .stream().map(f -> new REXPDouble(f.getValue().asNumber())).toArray(REXP[]::new);
-        final String[] names = list.get(0).getFeatures().stream().map(Feature::getName).toArray(String[]::new);
+        List<Feature> features = list.get(0).getFeatures();
+        System.out.println("I got " + features.size() + " features.");
+        final REXP[] values = features.stream().map(f -> new REXPDouble(f.getValue().asNumber())).toArray(REXP[]::new);
+        final String[] names = features.stream().map(Feature::getName).toArray(String[]::new);
         try {
             final REXP df = REXP.createDataFrame(new RList(values, names));
             final double prediction = fn.getEngine().eval(new REXPLanguage(new RList(new REXP[]{fn, df})) ,  null, false).asDouble();

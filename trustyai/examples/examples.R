@@ -1,13 +1,10 @@
 library(trustyai)
 library(rJava)
 
-trustyai::init(c("~/Sync/code/rh/trusty/trustyai-explainability-r/java/trustyai-explainability-r/target/trustyai-explainability-r-1.0-SNAPSHOT.jar",
-                 paste(system.file("jri",package="rJava"), "JRIEngine.jar", sep="/")))
-
 center <- 10.0
 epsilon <- 2.0
 
-model <- J("org/kie/trustyai/explainability/utils/models/TestModels")$getSumThresholdModel(center, epsilon)
+model <- trustyai::TestModels$getSumThresholdModel(center, epsilon)
 
 features <- .jnew("java/util/ArrayList")
 features$add(feature(name="x1", type="number", value=runif(n = 1, min = 0, max = 10)))

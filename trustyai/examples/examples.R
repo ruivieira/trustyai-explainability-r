@@ -1,7 +1,8 @@
 library(trustyai)
 library(rJava)
 
-trustyai::init("~/Sync/code/rh/trusty/trustyai-explainability-r/trustyai/deps/explainability-arrow-0.3.0.jar")
+trustyai::init(c("~/Sync/code/rh/trusty/trustyai-explainability-r/java/trustyai-explainability-r/target/trustyai-explainability-r-1.0-SNAPSHOT.jar",
+                 paste(system.file("jri",package="rJava"), "JRIEngine.jar", sep="/")))
 
 center <- 10.0
 epsilon <- 2.0
@@ -27,3 +28,8 @@ prediction <- new(J("org/kie/trustyai/explainability/model/SimplePrediction"), a
 saliencies <- lime$explainAsync(prediction, model)$get()
 
 cat(saliencies$asTable())
+
+f <- function() { cat("Hello!\n"); 1 }
+fref <- toJava(f)
+
+J("org/kie/trustyai/r/ModelWrapper")$call(fref)

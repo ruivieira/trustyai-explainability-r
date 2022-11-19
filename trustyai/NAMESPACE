@@ -2,5 +2,6 @@
 
 export(feature)
 export(init)
+importFrom(rJava,.jengine)
 importFrom(rJava,.jinit)
 importFrom(rJava,J)

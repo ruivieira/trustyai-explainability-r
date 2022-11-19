@@ -38,3 +38,6 @@ vignettes/*.pdf
 # R Environment Variables
 .Renviron
 trustyai/examples/.ipynb_checkpoints
+java/trustyai-explainability-r/.idea
+java/trustyai-explainability-r/target
+java/trustyai-explainability-r/dependency-reduced-pom.xml

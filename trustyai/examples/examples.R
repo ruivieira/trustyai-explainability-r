@@ -30,3 +30,28 @@ f <- function() { cat("Hello!\n"); 1 }
 fref <- toJava(f)
 
 J("org/kie/trustyai/r/ModelWrapper")$call(fref)
+
+# Simple linear regression
+
+data(trees)
+head(trees)
+
+fit_3 <- lm(Volume ~ Girth * Height, data = trees)
+
+summary(fit_3)
+
+prediction_fn <- function(df) {
+  print("Calling the prediction function")
+  return(predict(fit_3, df))
+}
+
+input <- data.frame(Girth = 18.2, Height = 72)
+output <- prediction_fn(input)
+
+l_input <- list("Girth"=18.2, "Height"=72)
+prediction_fn(l_input)
+
+pref <- toJava(prediction_fn)
+J("org/kie/trustyai/r/ModelWrapper")$debug(pref)
+
+result <- J("org/kie/trustyai/r/ModelWrapper")$invoke(pref)

@@ -2,7 +2,12 @@
 
 export(Model)
 export(TestModels)
+export(create_output)
 export(feature)
+export(prediction_input)
+export(prediction_output)
+export(simple_prediction)
 importFrom(rJava,.jengine)
 importFrom(rJava,.jinit)
+importFrom(rJava,.jnew)
 importFrom(rJava,J)

@@ -16,6 +16,14 @@ features$add(feature(name="x3", type="number", value=runif(n = 1, min = 0, max =
 
 input <- .jnew("java/util/ArrayList")
 input$add(new(J("org/kie/trustyai/explainability/model/PredictionInput"), features))
-output <- as.list(model$predictAsync(input)$get())
+output <- model$predictAsync(input)$get()
 
-output[[1]]$getOutputs()
+as.list(output)[[1]]$getOutputs()
+
+lime <- new(J("org/kie/trustyai/explainability/local/lime/LimeExplainer"))
+
+prediction <- new(J("org/kie/trustyai/explainability/model/SimplePrediction"), as.list(input)[[1]], as.list(output)[[1]])
+
+saliencies <- lime$explainAsync(prediction, model)$get()
+
+cat(saliencies$asTable())

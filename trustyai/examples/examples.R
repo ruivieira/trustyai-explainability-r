@@ -15,27 +15,20 @@ features <- c(
 input <- prediction_input(features)
 output <- c(as.list(as.list(model$predictAsync(J("java/util/List")$of(input))$get()$toArray())[[1]]$getOutputs())[[1]])
 
-lime <- new(J("org/kie/trustyai/explainability/local/lime/LimeExplainer"))
-
 prediction <- simple_prediction(features, output)
 
-saliencies <- lime$explainAsync(prediction, model)$get()
+saliencies <- lime(prediction, model)
 
 cat(saliencies$asTable())
-
-f <- function() { cat("Hello!\n"); 1 }
-fref <- toJava(f)
-
-J("org/kie/trustyai/r/ModelWrapper")$call(fref)
 
 # Simple linear regression
 
 data(trees)
 head(trees)
 
-fit_3 <- lm(Volume ~ Girth * Height, data = trees)
+regression <- lm(Volume ~ Girth * Height, data = trees)
 
-summary(fit_3)
+summary(regression)
 
 prediction_fn <- function(df) {
   print("Calling the prediction function")
@@ -51,14 +44,14 @@ result <- as.double(prediction_fn(l_input))
 pref <- toJava(prediction_fn)
 model <- Model(pref)
 
-#result <- J("org/kie/trustyai/r/ModelWrapper")$invoke(pref)
-#result
-
-lime <- new(J("org/kie/trustyai/explainability/local/lime/LimeExplainer"))
 features <- c(
   feature(name="Girth", type="number", value=18.2),
   feature(name="Height", type="number", value=72.0))
+
 output <- c(create_output("prediction", result))
+
 prediction <- simple_prediction(features, output)
-saliencies <- lime$explainAsync(prediction, model)$get()
+
+saliencies <- lime(prediction, model)
+
 cat(saliencies$asTable())

@@ -49,3 +49,33 @@ output <- c(create_output("Volume", pred))
 saliencies <- lime(inputs=features, output=output, model=model)
 
 cat(saliencies$asTable())
+
+# Random forests
+
+require(randomForest)
+require(MASS)
+
+attach(Boston)
+set.seed(23)
+
+train <- sample(1:nrow(Boston),300)
+
+rf <- randomForest(medv ~ . , data = Boston , subset = train)
+
+prediction_fn <- function(df) {
+  return(predict(rf, df))
+}
+input <- data.frame(crim=0.02731, zn=0, indus=7.07, chas=0, nox=0.469,
+                    rm=6.421, age=78.9, dis=4.9671, rad=2, tax=242,
+                    ptratio=17.8, black=396.9, lstat=9.14)
+pred <- as.double(prediction_fn(input))
+
+
+model <- Model(prediction_fn)
+
+features <- df_to_features(input)
+output <- c(create_output("medv", pred))
+
+saliencies <- lime(inputs=features, output=output, model=model)
+
+cat(saliencies$asTable())

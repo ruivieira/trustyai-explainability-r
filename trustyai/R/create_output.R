@@ -4,7 +4,7 @@
 create_output <- function(name, value, score = 0) {
   o_ <- J("org/kie/trustyai/r/OutputFactory")
   return(o_$newNumericOutput(
-    new(J("java/lang/String"), name),
-    new(J("java/lang/Double"), value),
-    new(J("java/lang/Double"), score)))
+    .jnew("java/lang/String", name),
+    .jnew("java/lang/Double", value),
+    .jnew("java/lang/Double", score)))
 }

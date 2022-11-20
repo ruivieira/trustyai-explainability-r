@@ -17,7 +17,7 @@ output <- c(as.list(as.list(model$predictAsync(J("java/util/List")$of(input))$ge
 
 prediction <- simple_prediction(features, output)
 
-saliencies <- lime(prediction, model)
+saliencies <- lime(features, output, model)
 
 cat(saliencies$asTable())
 
@@ -36,10 +36,7 @@ prediction_fn <- function(df) {
 }
 
 input <- data.frame(Girth = 18.2, Height = 72)
-output <- prediction_fn(input)
-
-l_input <- list("Girth"=18.2, "Height"=72)
-result <- as.double(prediction_fn(l_input))
+pred <- as.double(prediction_fn(input))
 
 model <- Model(prediction_fn)
 
@@ -47,10 +44,8 @@ features <- c(
   feature(name="Girth", type="number", value=18.2),
   feature(name="Height", type="number", value=72.0))
 
-output <- c(create_output("prediction", result))
+output <- c(create_output("Volume", pred))
 
-prediction <- simple_prediction(features, output)
-
-saliencies <- lime(prediction, model)
+saliencies <- lime(inputs=features, output=output, model=model)
 
 cat(saliencies$asTable())

@@ -1,7 +1,7 @@
 #' @export prediction_input
 #' @importFrom rJava J
 prediction_input <- function(features) {
-  jinputs <- .jnew("java/util/ArrayList")
+  jinputs <- new(J("java/util/ArrayList"))
   for (feature in features) {
     jinputs$add(feature)
   }

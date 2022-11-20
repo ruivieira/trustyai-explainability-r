@@ -65,9 +65,7 @@ rf <- randomForest(medv ~ . , data = Boston , subset = train)
 prediction_fn <- function(df) {
   return(predict(rf, df))
 }
-input <- data.frame(crim=0.02731, zn=0, indus=7.07, chas=0, nox=0.469,
-                    rm=6.421, age=78.9, dis=4.9671, rad=2, tax=242,
-                    ptratio=17.8, black=396.9, lstat=9.14)
+input <- Boston[1,1:13]
 pred <- as.double(prediction_fn(input))
 
 
